@@ -8,43 +8,51 @@ This is a simple Java project that prints "Hello World" to the console.
 - Docker (to run the project in a containerized environment)
 - IDE like NetBeans (optional, but recommended)
 
-## Installation
+## Dockerfile Explanation
 
-1. Clone the repository:
+    
+| **Step**                       | **Description**                                                                                             |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------|
+| `FROM openjdk:8-jdk-alpine`     | Use the OpenJDK 8 image based on Alpine Linux, providing a lightweight environment for Java.                 |
+| `WORKDIR /app`                  | Set the working directory inside the container to `/app`.                                                   |
+| `COPY pom.xml /app`             | Copy the Maven `pom.xml` file to the `/app` directory inside the container.                                 |
+| `COPY src /app/src`             | Copy the source code into the container's `/app/src` directory.                                             |
+| `RUN apk add --no-cache maven && mvn clean package` | Install Maven and build the project with `mvn clean package`.                                     |
+| `CMD ["java", "-cp", "target/ProyectoJava-1.0-SNAPSHOT.jar", "com.mycompany.proyectojava.ProyectoJava"]` | Run the Java application using the generated `.jar` file. |
 
-    ```bash
-    git clone https://github.com/JessJoha/ProyectoJava.git
-    ```
 
-2. Navigate to the project directory:
+## Building the Docker Image 
+If you prefer to build the Docker image, run this command.
 
-    ```bash
-    cd ProyectoJava
-    ```
+1. **Build the Docker image:**
+   
+```bash
+docker build -t imgjava .
+ ```
 
-3. Ensure JDK is installed by checking the version with the following command:
+## Push the image to Docker Hub
+To push the image to your own Docker Hub account, follow these steps.
 
-    ```bash
-    java -version
-    ```
-
-    If you don't have JDK installed.
-
-## Running the Project
-
-To run the project, simply use the following command in your terminal:
-
-1. **Compile the Java file**:
-
-    ```bash
-    javac ProyectoJava.java
-    ```
-
-2. **Run the compiled Java file**:
+1. **Tag the image:**
 
     ```bash
-    java ProyectoJava
-    ```
+    docker tag imgjava jessjoha/imgjava:latest
+    ``` 
+2. **Push the image to Docker Hub:**
+   
+    ```bash
+    docker push jessjoha/imgjava:latest
+    ``` 
+
+### Pull the image from Docker Hub:
+
+```bash
+docker pull jessjoha/imgjava
+```
+
+## Link to the Docker Hub image:
+
+https://hub.docker.com/r/jessjoha/imgjava
 
 The program will print `Hello World` to the console.
 
